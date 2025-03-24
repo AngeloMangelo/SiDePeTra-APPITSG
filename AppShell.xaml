@@ -3,13 +3,16 @@
     x:Class="SiDePeTra_APPITSG.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:SiDePeTra_APPITSG"
-    Shell.FlyoutBehavior="Disabled"
-    Title="SiDePeTra_APPITSG">
+    xmlns:view="clr-namespace:SiDePeTra_APPITSG.views"
+    Shell.FlyoutBehavior="Disabled">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
 
+    <TabBar>
+        <Tab Title="Solicitud" Icon="clipboardfilled.svg">
+            <ShellContent ContentTemplate="{DataTemplate view:Solicitud}" />
+        </Tab>
+        <Tab Title="Configuracion" Icon="settings.svg">
+            <ShellContent ContentTemplate="{DataTemplate view:Configuracion}" />
+        </Tab>
+    </TabBar>
 </Shell>

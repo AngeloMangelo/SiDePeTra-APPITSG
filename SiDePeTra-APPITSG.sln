@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiDePeTra-APPITSG", "SiDePeTra-APPITSG.csproj", "{69A4D790-F1AD-4147-B0BC-CA6470542687}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SiDePeTra-APPITSG", "SiDePeTra-APPITSG.csproj", "{69A4D790-F1AD-4147-B0BC-CA6470542687}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiDePeTra.BLL", "..\SiDePeTra.BLL\SiDePeTra.BLL.csproj", "{6DF508DD-A3E2-4A80-8509-85DB807A5F57}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiDePeTra.DAL", "..\SiDePeTra.DAL\SiDePeTra.DAL.csproj", "{EB252315-D08D-4976-A1F2-1C749D6CAE08}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,6 +21,14 @@ Global
 		{69A4D790-F1AD-4147-B0BC-CA6470542687}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{69A4D790-F1AD-4147-B0BC-CA6470542687}.Release|Any CPU.Build.0 = Release|Any CPU
 		{69A4D790-F1AD-4147-B0BC-CA6470542687}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{6DF508DD-A3E2-4A80-8509-85DB807A5F57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DF508DD-A3E2-4A80-8509-85DB807A5F57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DF508DD-A3E2-4A80-8509-85DB807A5F57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DF508DD-A3E2-4A80-8509-85DB807A5F57}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB252315-D08D-4976-A1F2-1C749D6CAE08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB252315-D08D-4976-A1F2-1C749D6CAE08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB252315-D08D-4976-A1F2-1C749D6CAE08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB252315-D08D-4976-A1F2-1C749D6CAE08}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
