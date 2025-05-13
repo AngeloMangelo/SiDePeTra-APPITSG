@@ -71,7 +71,16 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="views\Configuracion.xaml">
+	  <Compile Update="views\Administrativo.xaml.cs">
+	    <DependentUpon>Administrativo.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="views\Administrativo.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="views\LoginPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="views\Solicitud.xaml">

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SiDePeTra_APPITSG.views.LoginPage"
+             BackgroundColor="Black"
+             Title="Inicio de sesión">
+
+    <Grid>
+        <!-- Cuerpo principal -->
+        <VerticalStackLayout Padding="30" Spacing="25" VerticalOptions="Center">
+            <Label Text="Bienvenido Docente"
+                   FontSize="28"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" />
+
+            <Entry x:Name="entryId"
+                   Placeholder="Ingrese su ID de docente"
+                   Keyboard="Default"
+                   FontSize="18"
+                   MaxLength="20" />
+
+            <Button x:Name="btnIngresar"
+                    Text="Ingresar"
+                    FontSize="18"
+                    Clicked="OnLoginClicked"
+                    BackgroundColor="#0077CC"
+                    TextColor="White"
+                    CornerRadius="12" />
+        </VerticalStackLayout>
+
+        <!-- Overlay de carga -->
+        <Grid x:Name="overlayCargando"
+              IsVisible="False"
+              BackgroundColor="#80000000"
+              VerticalOptions="FillAndExpand"
+              HorizontalOptions="FillAndExpand"
+              Padding="20">
+
+            <Frame BackgroundColor="WhiteSmoke"
+                   CornerRadius="16"
+                   Padding="10"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   HasShadow="True">
+
+                <VerticalStackLayout Spacing="10" HorizontalOptions="Center">
+                    <ActivityIndicator IsRunning="True" Color="MediumPurple" />
+                    <Label Text="Iniciando sesión..." FontSize="14" TextColor="Black"/>
+                </VerticalStackLayout>
+
+            </Frame>
+        </Grid>
+    </Grid>
+</ContentPage>

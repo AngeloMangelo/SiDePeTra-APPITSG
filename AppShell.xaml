@@ -6,13 +6,21 @@
     xmlns:view="clr-namespace:SiDePeTra_APPITSG.views"
     Shell.FlyoutBehavior="Disabled">
 
+    <!-- Página de Login -->
+    <ShellContent Route="LoginPage"
+                  ContentTemplate="{DataTemplate view:LoginPage}" />
 
-    <TabBar>
-        <Tab Title="Solicitud" Icon="clipboardfilled.svg">
+    <!-- TabBar principal, sólo accesible tras login -->
+    <TabBar x:Name="MainTabs" Route="MainTabs">
+
+        <Tab x:Name="TabSolicitud" Title="Solicitud" Icon="clipboardfilled.svg">
             <ShellContent ContentTemplate="{DataTemplate view:Solicitud}" />
         </Tab>
-        <Tab Title="Configuracion" Icon="settings.svg">
-            <ShellContent ContentTemplate="{DataTemplate view:Configuracion}" />
+
+        <Tab x:Name="TabAdministrativo" Title="Administrativo" Icon="administrativo.svg">
+            <ShellContent ContentTemplate="{DataTemplate view:Administrativo}" />
         </Tab>
+
     </TabBar>
+
 </Shell>

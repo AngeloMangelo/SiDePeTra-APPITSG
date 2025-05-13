@@ -28,8 +28,8 @@ public partial class Solicitud : ContentPage
             if (resultado.Rows.Count > 0)
             {
                 var row = resultado.Rows[0];
-                lblNombre.Text = $"{row["Nombre"]} {row["ApellidoPaterno"]} {row["ApellidoMaterno"]}";
-                lblNoEmpleado.Text = row["NoEmpleado"].ToString();
+                lblNombre.Text = $"Nombre: {row["Nombre"]} {row["ApellidoPaterno"]} {row["ApellidoMaterno"]}";
+                lblNoEmpleado.Text = $"No. Empleado: {row["NoEmpleado"].ToString()}";
             }
         }
         catch (Exception ex)

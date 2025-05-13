@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SiDePeTra_APPITSG.views.Administrativo"
+             Title="Perfil"
+             BackgroundColor="Black">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="30" Spacing="25">
+
+            <Label Text="Datos del Usuario"
+                   FontSize="28"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" />
+
+            <Label Text="Nombre completo:" FontAttributes="Bold" />
+            <Label x:Name="lblNombreCompleto" Text="---" />
+
+            <Label Text="Número de empleado:" FontAttributes="Bold" />
+            <Label x:Name="lblNoEmpleado" Text="---" />
+
+            <Label Text="Tipo de usuario:" FontAttributes="Bold" />
+            <Label x:Name="lblTipoUsuario" Text="---" />
+
+            <Button Text="Cerrar sesión"
+                    BackgroundColor="Red"
+                    TextColor="White"
+                    Clicked="CerrarSesion_Clicked"
+                    CornerRadius="12" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
