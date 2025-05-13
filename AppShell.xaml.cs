@@ -8,7 +8,7 @@ namespace SiDePeTra_APPITSG
         public AppShell()
         {
             InitializeComponent();
-
+            this.Opacity = 0;
             // Registrar rutas necesarias
             Routing.RegisterRoute("LoginPage", typeof(views.LoginPage));
             Routing.RegisterRoute("Solicitud", typeof(views.Solicitud));
