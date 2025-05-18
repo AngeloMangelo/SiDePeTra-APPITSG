@@ -1,8 +1,5 @@
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Storage;
-using System;
-using System.Data;
-using SiDePeTra.DAL;
 
 namespace SiDePeTra_APPITSG.views
 {
@@ -16,37 +13,17 @@ namespace SiDePeTra_APPITSG.views
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            CargarDatosUsuario();
-        }
 
-        private void CargarDatosUsuario()
-        {
-            string idUsuario = Preferences.Get("UsuarioID", "");
+            // Obtener los datos desde preferencias locales
+            string id = Preferences.Get("UsuarioID", "");
+            string nombre = Preferences.Get("Nombre", "");
+            string apePat = Preferences.Get("ApellidoPaterno", "");
+            string apeMat = Preferences.Get("ApellidoMaterno", "");
+            string tipo = Preferences.Get("TipoUsuario", "");
 
-            if (string.IsNullOrEmpty(idUsuario))
-            {
-                DisplayAlert("Error", "No se encontró sesión activa", "OK");
-                return;
-            }
-
-            string consulta = $@"
-                SELECT NoEmpleado, Nombre, ApellidoPaterno, ApellidoMaterno, TipoUsuario
-                FROM Usuarios
-                WHERE NoEmpleado = '{idUsuario}'";
-
-            DataTable resultado = ConexionBD.EjecutarConsulta(consulta);
-
-            if (resultado.Rows.Count > 0)
-            {
-                var fila = resultado.Rows[0];
-                lblNoEmpleado.Text = fila["NoEmpleado"].ToString();
-                lblNombreCompleto.Text = $"{fila["Nombre"]} {fila["ApellidoPaterno"]} {fila["ApellidoMaterno"]}";
-                lblTipoUsuario.Text = fila["TipoUsuario"].ToString();
-            }
-            else
-            {
-                DisplayAlert("Error", "No se encontraron los datos del usuario", "OK");
-            }
+            lblNoEmpleado.Text = id;
+            lblNombreCompleto.Text = $"{nombre} {apePat} {apeMat}";
+            lblTipoUsuario.Text = tipo;
         }
 
         private async void CerrarSesion_Clicked(object sender, EventArgs e)
@@ -58,7 +35,14 @@ namespace SiDePeTra_APPITSG.views
 
             if (confirmacion)
             {
+                // Borrar todos los datos guardados
                 Preferences.Remove("UsuarioID");
+                Preferences.Remove("Nombre");
+                Preferences.Remove("ApellidoPaterno");
+                Preferences.Remove("ApellidoMaterno");
+                Preferences.Remove("TipoUsuario");
+
+                // Regresar al login
                 await Shell.Current.GoToAsync("//LoginPage");
             }
         }

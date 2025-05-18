@@ -16,36 +16,39 @@ TipoUsuario NVarchar(20) NOT NULL CHECK (TipoUsuario IN ('Docente', 'Administrat
 )
 
 
-insert into Usuarios(NoEmpleado, Nombre, ApellidoPaterno, ApellidoMaterno, TipoUsuario) values('SAJA020118HSLNMNA8','Angel','Sanchez','Jimenez','Docente')
+insert into Usuarios(NoEmpleado, Nombre, ApellidoPaterno, ApellidoMaterno, TipoUsuario) values('2025010070','Angel','Sanchez','Jimenez','Docente')
 insert into Usuarios(NoEmpleado, Nombre, ApellidoPaterno, ApellidoMaterno, TipoUsuario) values('SAJA020118HSLNMNA8S','Angel','Sanchez','Jimenez','Administrativo')
 
 select *from Usuarios
 Select NoEmpleado, Nombre, ApellidoPaterno, ApellidoMaterno, TipoUsuario from Usuarios where NoEmpleado = 'SAJA020118HSLNMNA8'
 
-CATALOGOAREAS DE ADSCRIPCION
+--CATALOGOAREAS DE ADSCRIPCION
                     SELECT TipoUsuario FROM Usuarios WHERE NoEmpleado = 'SAJA020118HSLNMNA8'
 
 					select PEM.Solicitudes, PEM.Fecha, concat(Us.Nombre, ' ', Us.ApellidoPaterno, ' ', Us.ApellidoMaterno) as Usuario, PEM.Estado From PERMISO PEM inner join Usuarios Us on Us.NoEmpleado = PEM.NoEmpPro WHERE Us.NoEmpleado ='ZAJA01040411HL'
 
-
+SELECT COUNT(*) FROM Usuarios WHERE NoEmpleado = 'SAJA020118HSLNMNA8'
+--nueva version
 Create table PERMISO(
 Solicitudes int primary key not null identity(1,1), 
 Fecha datetime  null,	
 NoEmpPro nVarchar(255) not null,
 TipoUsuario Nvarchar(20),
-dias int not null,
-DeLAfECHA datetime not null,
-aLAFECHA datetime not null,
+dias int null,
+pdf VARBINARY(MAX) null,
+actividad nvarchar(200) null,
+DeLAfECHA datetime  null,
+aLAFECHA datetime  null,
 horainicio time  null,
 horafin time  null,
-AREAADSCRIPCION Nvarchar(100),
+AREAADSCRIPCION Nvarchar(60),
 HFrenGrupo decimal(4,2) null,
 HApoCad decimal(4,2) null,
-MOTIVO Nvarchar(100) not null,
+MOTIVO Nvarchar(100)  null,
 Goce bit  null,
 sinGoce bit  null,
 OBSERVACIONES Nvarchar(100) null,
-Estado varchar(14) not null
+Estado varchar(14)  null
 CONSTRAINT Estado CHECK (Estado IN ('Espera', 'Aceptado', 'Rechazado')),
 QUIENAUTORIZA Nvarchar(100)
 foreign key (NoEmpPro) references Usuarios(NoEmpleado)

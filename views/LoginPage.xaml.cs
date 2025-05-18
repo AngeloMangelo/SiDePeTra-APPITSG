@@ -1,6 +1,7 @@
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Storage;
 using SiDePeTra.BLL;
+using Microsoft.Maui.Networking;
 
 namespace SiDePeTra_APPITSG.views
 {
@@ -39,6 +40,13 @@ namespace SiDePeTra_APPITSG.views
                 return;
             }
 
+            //Verificar conexión a internet
+            if (Connectivity.NetworkAccess != NetworkAccess.Internet)
+            {
+                await DisplayAlert("Sin conexión", "No tienes conexión a Internet. Verifica tu red e intenta de nuevo.", "OK");
+                return;
+            }
+
             btnIngresar.IsEnabled = false;
             overlayCargando.IsVisible = true;
 
@@ -49,18 +57,28 @@ namespace SiDePeTra_APPITSG.views
             overlayCargando.IsVisible = false;
             btnIngresar.IsEnabled = true;
 
-            if (existe)
+            if (!existe)
             {
-                Preferences.Set("UsuarioID", idIngresado);
+                await DisplayAlert("Error", "No se pudo verificar el usuario. Verifica tu conexión o intenta más tarde.", "OK");
+                return;
+            }
 
-                await this.FadeTo(0, 300); // fade out
-                App.Current.MainPage = new AppShell();
-                await App.Current.MainPage.FadeTo(1, 300); // fade in
-            }
-            else
+            // Si sí existe, continuar:
+            Preferences.Set("UsuarioID", idIngresado);
+            // Obtener datos del usuario desde SQL
+            var datos = UsuarioBLL.ObtenerDatosUsuario(idIngresado);
+
+            if (datos != null)
             {
-                await DisplayAlert("ID inválido", "No se encontró un docente con ese ID", "OK");
+                Preferences.Set("Nombre", datos.Nombre);
+                Preferences.Set("ApellidoPaterno", datos.ApellidoPaterno);
+                Preferences.Set("ApellidoMaterno", datos.ApellidoMaterno);
+                Preferences.Set("TipoUsuario", datos.TipoUsuario);
             }
+
+            await this.FadeTo(0, 300);
+            App.Current.MainPage = new AppShell();
+            await App.Current.MainPage.FadeTo(1, 300);
         }
 
     }
