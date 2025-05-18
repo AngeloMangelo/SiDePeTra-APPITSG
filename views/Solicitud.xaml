@@ -50,8 +50,19 @@
                        TextColor="White" 
                        Keyboard="Numeric"
                        WidthRequest="60"
-                       HeightRequest="40"/>
+                       HeightRequest="40"
+                       Text="0"
+                       TextChanged="TxtDiasSolicitados_TextChanged"
+                       Unfocused="TxtDiasSolicitados_Unfocused"
+                       Focused="TxtDiasSolicitados_Focused"/>
             </HorizontalStackLayout>
+
+            <Label x:Name="lblTipoSolicitud"
+                Text="Solicitud por horas"
+                FontAttributes="Italic"
+                FontSize="14"
+                TextColor="LightGray" />
+
 
             <!-- Fechas -->
             <VerticalStackLayout Spacing="10">
@@ -80,14 +91,43 @@
                     <TimePicker x:Name="tpHoraInicio" 
                                 TextColor="White" 
                                 BackgroundColor="#1E1E1E"
-                                WidthRequest="150"/>
+                                WidthRequest="150"
+                                PropertyChanged="TpHoraInicio_PropertyChanged"/>
                     <Label Text=" a " TextColor="White"/>
                     <TimePicker x:Name="tpHoraFin" 
                                 TextColor="White" 
                                 BackgroundColor="#1E1E1E"
-                                WidthRequest="150"/>
+                                WidthRequest="150"
+                                PropertyChanged="TpHoraFin_PropertyChanged"/>
                 </HorizontalStackLayout>
             </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="10">
+                <Label Text="No. de hora(s) frente al grupo:" 
+                    TextColor="White" 
+                    FontAttributes="Bold"/>
+                <Entry x:Name="txtHorasFrenteGrupo"
+                    Keyboard="Numeric"
+                    Placeholder="Ej: 2"
+                    BackgroundColor="#1E1E1E"
+                    TextColor="White"
+                    PlaceholderColor="#B0B0B0"
+                    HeightRequest="40"/>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="10">
+                <Label Text="No. de hora(s) apoyo académico:" 
+                    TextColor="White" 
+                    FontAttributes="Bold"/>
+                <Entry x:Name="txtHorasApoyo"
+                    Keyboard="Numeric"
+                    Placeholder="Ej: 1"
+                    BackgroundColor="#1E1E1E"
+                    TextColor="White"
+                    PlaceholderColor="#B0B0B0"
+                    HeightRequest="40"/>
+            </VerticalStackLayout>
+
 
             <VerticalStackLayout>
                 <Label Text="Área de Adscripción:"

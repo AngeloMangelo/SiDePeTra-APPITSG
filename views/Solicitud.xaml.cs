@@ -1,6 +1,8 @@
 namespace SiDePeTra_APPITSG.views;
 using System.Timers;
 using SiDePeTra.BLL;
+using Microsoft.Maui.Devices;
+
 
 public partial class Solicitud : ContentPage
 {
@@ -27,6 +29,11 @@ public partial class Solicitud : ContentPage
     {
         base.OnAppearing();
 
+        txtDiasSolicitados.Text = "0";
+        tpHoraInicio.Time = new TimeSpan(8, 0, 0); // 08:00 AM por defecto
+        tpHoraFin.Time = new TimeSpan(9, 0, 0); // 09:00 AM por defecto
+        AplicarLogicaDias();           
+
         string id = Preferences.Get("UsuarioID", "");
         string nombre = $"{Preferences.Get("Nombre", "")} {Preferences.Get("ApellidoPaterno", "")} {Preferences.Get("ApellidoMaterno", "")}";
 
@@ -37,11 +44,61 @@ public partial class Solicitud : ContentPage
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
-        timer?.Stop(); // Detiene el timer cuando la página desaparece
+        timer?.Stop();
     }
+
+    private void AplicarLogicaDias()
+    {
+        // Si está vacío, poner 0
+        if (string.IsNullOrWhiteSpace(txtDiasSolicitados.Text))
+        {
+            txtDiasSolicitados.Text = "0";
+        }
+
+        if (!int.TryParse(txtDiasSolicitados.Text, out int dias) || dias <= 0)
+        {
+            //Modo por HORAS
+            tpHoraInicio.IsEnabled = true;
+            tpHoraFin.IsEnabled = true;
+
+            dpFechaInicio.IsEnabled = false;
+            dpFechaFin.IsEnabled = false;
+
+            dpFechaInicio.Date = DateTime.Today;
+            dpFechaFin.Date = DateTime.Today;
+
+            lblTipoSolicitud.Text = "Solicitud por horas";
+            lblTipoSolicitud.TextColor = Color.FromArgb("#00BFFF");
+        }
+        else
+        {
+            //Modo por DÍAS
+            tpHoraInicio.IsEnabled = false;
+            tpHoraFin.IsEnabled = false;
+
+            dpFechaInicio.IsEnabled = false;
+            dpFechaFin.IsEnabled = false;
+
+            DateTime inicio = CalcularProximoDiaHabil(DateTime.Today);
+            DateTime fin = CalcularFechaFinDiasHabiles(inicio, dias - 1);
+
+            dpFechaInicio.Date = inicio;
+            dpFechaFin.Date = fin;
+
+            lblTipoSolicitud.Text = $"Solicitud por {dias} día(s)";
+            lblTipoSolicitud.TextColor = Color.FromArgb("#FF6B6B");
+        }
+    }
+
 
     private async void BtnEnviarSolicitud_Clicked(object sender, EventArgs e)
     {
+        decimal horasFrenteGrupo = 0;
+        decimal horasApoyo = 0;
+
+        decimal.TryParse(txtHorasFrenteGrupo.Text, out horasFrenteGrupo);
+        decimal.TryParse(txtHorasApoyo.Text, out horasApoyo);
+
         // Validación
         if (string.IsNullOrWhiteSpace(txtDiasSolicitados.Text) ||
             string.IsNullOrWhiteSpace(txtMotivo.Text))
@@ -56,14 +113,10 @@ public partial class Solicitud : ContentPage
             return;
         }
 
+
         string area = pickerArea.SelectedItem.ToString();
-
-
         string id = Preferences.Get("UsuarioID", "");
-        string nombre = Preferences.Get("Nombre", "") + " " +
-                        Preferences.Get("ApellidoPaterno", "") + " " +
-                        Preferences.Get("ApellidoMaterno", "");
-
+        string tipoUsuario = Preferences.Get("TipoUsuario", "");
         string motivo = txtMotivo.Text.Trim();
         int dias = int.Parse(txtDiasSolicitados.Text);
         DateTime fechaInicio = dpFechaInicio.Date;
@@ -71,8 +124,8 @@ public partial class Solicitud : ContentPage
         TimeSpan horaInicio = tpHoraInicio.Time;
         TimeSpan horaFin = tpHoraFin.Time;
 
-        // Aquí deberías llamar a una función de BLL o DAL para guardar en base de datos
-        bool exito = SolicitudBLL.GuardarSolicitud(id, dias, fechaInicio, fechaFin, horaInicio, horaFin, motivo, area);
+
+        bool exito = SolicitudBLL.GuardarSolicitud(id, dias, fechaInicio, fechaFin, horaInicio, horaFin, motivo, area, horasFrenteGrupo, horasApoyo);
 
         if (exito)
         {
@@ -94,5 +147,132 @@ public partial class Solicitud : ContentPage
         tpHoraFin.Time = new TimeSpan(9, 0, 0);
         txtMotivo.Text = "";
     }
+
+    private void TxtDiasSolicitados_Focused(object sender, FocusEventArgs e)
+    {
+        if (txtDiasSolicitados.Text == "0")
+        {
+            txtDiasSolicitados.Text = "";
+        }
+    }
+
+    private void TxtDiasSolicitados_Unfocused(object sender, FocusEventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(txtDiasSolicitados.Text))
+        {
+            txtDiasSolicitados.Text = "0";
+        }
+
+        AplicarLogicaDias();
+    }
+
+    private void TxtDiasSolicitados_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        AplicarLogicaDias();
+
+        if (!int.TryParse(txtDiasSolicitados.Text, out int dias) || dias <= 0)
+        {
+            //Solicitud por HORAS
+            tpHoraInicio.IsEnabled = true;
+            tpHoraFin.IsEnabled = true;
+
+            dpFechaInicio.IsEnabled = false;
+            dpFechaFin.IsEnabled = false;
+
+            dpFechaInicio.Date = DateTime.Today;
+            dpFechaFin.Date = DateTime.Today;
+        }
+        else
+        {
+            //Solicitud por DÍAS
+            tpHoraInicio.IsEnabled = false;
+            tpHoraFin.IsEnabled = false;
+
+            dpFechaInicio.IsEnabled = false;
+            dpFechaFin.IsEnabled = false;
+
+            // Calcular fechas hábiles
+            DateTime inicio = CalcularProximoDiaHabil(DateTime.Today);
+            DateTime fin = CalcularFechaFinDiasHabiles(inicio, dias - 1); // ya cuenta el primer día
+
+            dpFechaInicio.Date = inicio;
+            dpFechaFin.Date = fin;
+        }
+    }
+
+    private async void TpHoraInicio_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == "Time" && tpHoraFin.IsEnabled)
+        {
+            var horaInicio = tpHoraInicio.Time;
+            var horaFin = tpHoraFin.Time;
+
+            if (horaFin <= horaInicio)
+            {
+                await DisplayAlert("Horario inválido", "La hora de fin debe ser mayor a la hora de inicio.", "OK");
+
+                try { Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(200)); } catch { }
+
+                tpHoraFin.BackgroundColor = Colors.Red;
+                var sugerencia = horaInicio.Add(TimeSpan.FromHours(1));
+                tpHoraFin.Time = sugerencia;
+
+                await Task.Delay(1000);
+                tpHoraFin.BackgroundColor = Color.FromArgb("#1E1E1E");
+            }
+        }
+    }
+
+    private async void TpHoraFin_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == "Time" && tpHoraInicio.IsEnabled)
+        {
+            var horaInicio = tpHoraInicio.Time;
+            var horaFin = tpHoraFin.Time;
+
+            if (horaFin <= horaInicio)
+            {
+                await DisplayAlert("Horario inválido", "La hora de fin debe ser mayor a la hora de inicio.", "OK");
+
+                try { Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(200)); } catch { }
+
+                tpHoraFin.BackgroundColor = Colors.Red;
+                var sugerencia = horaInicio.Add(TimeSpan.FromHours(1));
+                tpHoraFin.Time = sugerencia;
+
+                await Task.Delay(1000);
+                tpHoraFin.BackgroundColor = Color.FromArgb("#1E1E1E");
+            }
+        }
+    }
+
+    private DateTime CalcularProximoDiaHabil(DateTime fecha)
+    {
+        fecha = fecha.AddDays(1);
+        while (fecha.DayOfWeek == DayOfWeek.Saturday || fecha.DayOfWeek == DayOfWeek.Sunday)
+        {
+            fecha = fecha.AddDays(1);
+        }
+        return fecha;
+    }
+
+    private DateTime CalcularFechaFinDiasHabiles(DateTime inicio, int diasHabiles)
+    {
+        int diasAgregados = 0;
+        DateTime fecha = inicio;
+
+        while (diasAgregados < diasHabiles)
+        {
+            fecha = fecha.AddDays(1);
+            if (fecha.DayOfWeek != DayOfWeek.Saturday && fecha.DayOfWeek != DayOfWeek.Sunday)
+            {
+                diasAgregados++;
+            }
+        }
+
+        return fecha;
+    }
+
+
 
 }
