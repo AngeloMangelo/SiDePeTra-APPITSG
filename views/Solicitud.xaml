@@ -20,31 +20,6 @@
                    TextColor="White" 
                    HorizontalOptions="Center"/>
 
-            <!-- Buscar Usuario -->
-            <VerticalStackLayout>
-                <Label Text="Ingrese su ID:" 
-                       TextColor="White" 
-                       FontAttributes="Bold" 
-                       FontSize="16"/>
-                <HorizontalStackLayout>
-                    <Entry x:Name="txtIdUsuario" 
-                           BackgroundColor="#1E1E1E" 
-                           TextColor="White" 
-                           Placeholder="ID Usuario"
-                           PlaceholderColor="#B0B0B0"
-                           VerticalTextAlignment="Center"
-                           HeightRequest="40"
-                           WidthRequest="200"
-                           Margin="0,5,10,0"/>
-                    <Button 
-                            Text="Buscar" 
-                            BackgroundColor="#FF6B6B" 
-                            TextColor="White" 
-                            FontAttributes="Bold"
-                            HeightRequest="40"
-                            Clicked="BtnBuscar_Clicked"/>
-                </HorizontalStackLayout>
-            </VerticalStackLayout>
 
             <BoxView HeightRequest="2" BackgroundColor="#FF6B6B" Margin="0,10"/>
 
@@ -114,6 +89,28 @@
                 </HorizontalStackLayout>
             </VerticalStackLayout>
 
+            <VerticalStackLayout>
+                <Label Text="Área de Adscripción:"
+           TextColor="White"
+           FontAttributes="Bold"/>
+
+                <Picker x:Name="pickerArea"
+            Title="Seleccione un área"
+            TextColor="White"
+            BackgroundColor="#1E1E1E">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Subdirección académica de investigación e innovación</x:String>
+                            <x:String>Subdirección de extensión y vinculación</x:String>
+                            <x:String>Subdirección de planeación y desarrollo</x:String>
+                            <x:String>Subdirección administrativa</x:String>
+                            <x:String>Dirección general</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+            </VerticalStackLayout>
+
+
             <!-- Motivo -->
             <VerticalStackLayout>
                 <Label Text="Motivo:" TextColor="White" FontAttributes="Bold"/>
@@ -132,7 +129,8 @@
                     FontAttributes="Bold"
                     HeightRequest="50"
                     CornerRadius="10"
-                    Margin="0,20,0,10"/>
+                    Margin="0,20,0,10"
+                    Clicked="BtnEnviarSolicitud_Clicked"/>
 
         </VerticalStackLayout>
     </ScrollView>

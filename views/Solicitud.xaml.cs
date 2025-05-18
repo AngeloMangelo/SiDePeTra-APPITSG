@@ -11,33 +11,6 @@ public partial class Solicitud : ContentPage
         IniciarActualizacionHora();
 	}
 
-    private async void BtnBuscar_Clicked(object sender, EventArgs e)
-    {
-        string noEmpleado = txtIdUsuario.Text;
-
-        if (string.IsNullOrWhiteSpace(noEmpleado))
-        {
-            await DisplayAlert("Error", "Ingrese un ID de usuario", "OK");
-            return;
-        }
-
-        try
-        {
-            var resultado = UsuarioBLL.ObtenerUsuarioPorId(noEmpleado);
-
-            if (resultado.Rows.Count > 0)
-            {
-                var row = resultado.Rows[0];
-                lblNombre.Text = $"Nombre: {row["Nombre"]} {row["ApellidoPaterno"]} {row["ApellidoMaterno"]}";
-                lblNoEmpleado.Text = $"No. Empleado: {row["NoEmpleado"].ToString()}";
-            }
-        }
-        catch (Exception ex)
-        {
-            await DisplayAlert("Error", ex.Message, "OK");
-        }
-    }
-
     private void IniciarActualizacionHora()
     {
         timer = new Timer(1000);
@@ -50,10 +23,76 @@ public partial class Solicitud : ContentPage
         };
         timer.Start();
     }
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+
+        string id = Preferences.Get("UsuarioID", "");
+        string nombre = $"{Preferences.Get("Nombre", "")} {Preferences.Get("ApellidoPaterno", "")} {Preferences.Get("ApellidoMaterno", "")}";
+
+        lblNoEmpleado.Text = $"No. Empleado: {id}";
+        lblNombre.Text = $"Nombre: {nombre}";
+    }
 
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
         timer?.Stop(); // Detiene el timer cuando la página desaparece
     }
+
+    private async void BtnEnviarSolicitud_Clicked(object sender, EventArgs e)
+    {
+        // Validación
+        if (string.IsNullOrWhiteSpace(txtDiasSolicitados.Text) ||
+            string.IsNullOrWhiteSpace(txtMotivo.Text))
+        {
+            await DisplayAlert("Campos incompletos", "Por favor complete todos los campos.", "OK");
+            return;
+        }
+
+        if (pickerArea.SelectedIndex == -1)
+        {
+            await DisplayAlert("Campo requerido", "Seleccione un área de adscripción.", "OK");
+            return;
+        }
+
+        string area = pickerArea.SelectedItem.ToString();
+
+
+        string id = Preferences.Get("UsuarioID", "");
+        string nombre = Preferences.Get("Nombre", "") + " " +
+                        Preferences.Get("ApellidoPaterno", "") + " " +
+                        Preferences.Get("ApellidoMaterno", "");
+
+        string motivo = txtMotivo.Text.Trim();
+        int dias = int.Parse(txtDiasSolicitados.Text);
+        DateTime fechaInicio = dpFechaInicio.Date;
+        DateTime fechaFin = dpFechaFin.Date;
+        TimeSpan horaInicio = tpHoraInicio.Time;
+        TimeSpan horaFin = tpHoraFin.Time;
+
+        // Aquí deberías llamar a una función de BLL o DAL para guardar en base de datos
+        bool exito = SolicitudBLL.GuardarSolicitud(id, dias, fechaInicio, fechaFin, horaInicio, horaFin, motivo, area);
+
+        if (exito)
+        {
+            await DisplayAlert("Éxito", "La solicitud se ha enviado correctamente.", "OK");
+            LimpiarCampos();
+        }
+        else
+        {
+            await DisplayAlert("Error", "No se pudo enviar la solicitud. Inténtelo de nuevo.", "OK");
+        }
+    }
+
+    private void LimpiarCampos()
+    {
+        txtDiasSolicitados.Text = "";
+        dpFechaInicio.Date = DateTime.Today;
+        dpFechaFin.Date = DateTime.Today;
+        tpHoraInicio.Time = new TimeSpan(8, 0, 0);
+        tpHoraFin.Time = new TimeSpan(9, 0, 0);
+        txtMotivo.Text = "";
+    }
+
 }

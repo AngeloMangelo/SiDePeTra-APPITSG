@@ -17,6 +17,7 @@ namespace SiDePeTra_APPITSG
             // Obtener el ID guardado
             var userId = Preferences.Get("UsuarioID", "");
 
+
             if (string.IsNullOrEmpty(userId))
             {
                 // No hay sesión → ir a login

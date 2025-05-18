@@ -6,6 +6,7 @@
     xmlns:view="clr-namespace:SiDePeTra_APPITSG.views"
     Shell.FlyoutBehavior="Disabled">
 
+    
     <!-- Página de Login -->
     <ShellContent Route="LoginPage"
                   ContentTemplate="{DataTemplate view:LoginPage}" />
