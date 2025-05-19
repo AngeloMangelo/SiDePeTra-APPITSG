@@ -18,7 +18,11 @@
             <ShellContent ContentTemplate="{DataTemplate view:Solicitud}" />
         </Tab>
 
-        <Tab x:Name="TabAdministrativo" Title="Administrativo" Icon="administrativo.svg">
+        <Tab x:Name="TabHistorial" Title="Historial" Icon="recent_icon.svg">
+            <ShellContent ContentTemplate="{DataTemplate view:HistorialPage}" />
+        </Tab>
+
+        <Tab x:Name="TabAdministrativo" Title="Usuario" Icon="administrativo.svg">
             <ShellContent ContentTemplate="{DataTemplate view:Administrativo}" />
         </Tab>
 

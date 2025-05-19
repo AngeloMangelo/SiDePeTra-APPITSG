@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SiDePeTra_APPITSG.views.HistorialPage"
+             Title="Historial"
+             BackgroundColor="#121212">
+
+    <CollectionView x:Name="collectionSolicitudes"
+                    Margin="10"
+                    EmptyView="No hay solicitudes registradas.">
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <Frame Padding="15"
+                       Margin="5"
+                       CornerRadius="10"
+                       BackgroundColor="#1E1E1E"
+                       BorderColor="{Binding EstadoColor}">
+
+                    <Grid RowDefinitions="Auto,Auto,Auto"
+                          ColumnDefinitions="Auto,*"
+                          ColumnSpacing="10">
+
+                        <!-- Ícono del estado (con color predefinido en archivo SVG) -->
+                        <Image Grid.RowSpan="3"
+                               Source="{Binding EstadoIcono}"
+                               WidthRequest="30"
+                               HeightRequest="30"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Center" />
+
+                        <!-- Fecha -->
+                        <Label Grid.Column="1"
+                               FontAttributes="Bold"
+                               TextColor="White">
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label" Binding="{Binding EsPlaceholder}" Value="True">
+                                    <Setter Property="Text" Value="Cargando fecha..." />
+                                    <Setter Property="TextColor" Value="#666" />
+                                </DataTrigger>
+                                <DataTrigger TargetType="Label" Binding="{Binding EsPlaceholder}" Value="False">
+                                    <Setter Property="Text" Value="{Binding FechaTexto}" />
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
+
+                        <!-- Rango -->
+                        <Label Grid.Column="1"
+                               Grid.Row="1"
+                               FontSize="13"
+                               TextColor="LightGray">
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label" Binding="{Binding EsPlaceholder}" Value="True">
+                                    <Setter Property="Text" Value="Cargando periodo..." />
+                                    <Setter Property="TextColor" Value="#666" />
+                                </DataTrigger>
+                                <DataTrigger TargetType="Label" Binding="{Binding EsPlaceholder}" Value="False">
+                                    <Setter Property="Text" Value="{Binding Rango}" />
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
+
+                        <!-- Estado -->
+                        <Label Grid.Column="1"
+                               Grid.Row="2"
+                               FontSize="14"
+                               FontAttributes="Bold">
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label" Binding="{Binding EsPlaceholder}" Value="True">
+                                    <Setter Property="Text" Value="Cargando estado..." />
+                                    <Setter Property="TextColor" Value="#666" />
+                                </DataTrigger>
+                                <DataTrigger TargetType="Label" Binding="{Binding EsPlaceholder}" Value="False">
+                                    <Setter Property="Text" Value="{Binding Estado}" />
+                                    <Setter Property="TextColor" Value="{Binding EstadoColor}" />
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
+
+                    </Grid>
+                </Frame>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+</ContentPage>
