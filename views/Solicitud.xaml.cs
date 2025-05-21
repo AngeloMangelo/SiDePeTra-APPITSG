@@ -7,7 +7,7 @@ using Microsoft.Maui.Devices;
 public partial class Solicitud : ContentPage
 {
     private Timer timer;
-
+    private byte[] archivoPDF;
     public Solicitud()
 	{
         InitializeComponent();
@@ -125,6 +125,37 @@ public partial class Solicitud : ContentPage
         }
     }
 
+    private async void BtnSeleccionarPDF_Clicked(object sender, EventArgs e)
+    {
+        var result = await FilePicker.PickAsync(new PickOptions
+        {
+            PickerTitle = "Selecciona un archivo PDF",
+            FileTypes = FilePickerFileType.Pdf
+        });
+
+        if (result != null)
+        {
+            if (result.FileName.EndsWith(".pdf", StringComparison.OrdinalIgnoreCase))
+            {
+                var stream = await result.OpenReadAsync();
+                if (stream.Length > 5 * 1024 * 1024)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Archivo muy grande", "El archivo no debe superar los 5 MB.", "OK");
+                    return;
+                }
+
+                using var ms = new MemoryStream();
+                await stream.CopyToAsync(ms);
+                archivoPDF = ms.ToArray();
+                lblArchivoSeleccionado.Text = result.FileName;
+            }
+            else
+            {
+                await Application.Current.MainPage.DisplayAlert("Formato no válido", "Solo se permiten archivos PDF.", "OK");
+            }
+        }
+    }
+
 
     private async void BtnEnviarSolicitud_Clicked(object sender, EventArgs e)
     {
@@ -148,6 +179,19 @@ public partial class Solicitud : ContentPage
             return;
         }
 
+        if (archivoPDF == null)
+        {
+            bool continuar = await Application.Current.MainPage.DisplayAlert(
+                "Archivo no adjuntado",
+                "No has seleccionado ningún archivo PDF. ¿Deseas continuar sin anexarlo?",
+                "Sí, continuar",
+                "No");
+
+            if (!continuar)
+                return;
+        }
+
+
 
         string area = pickerArea.SelectedItem.ToString();
         string id = Preferences.Get("UsuarioID", "");
@@ -161,7 +205,18 @@ public partial class Solicitud : ContentPage
 
         await MostrarCargando(true);
         await Task.Delay(100); // dejar que se muestre el loader
-        bool exito = await Task.Run(() => SolicitudBLL.GuardarSolicitud(id, dias, fechaInicio, fechaFin, horaInicio, horaFin, motivo, area, horasFrenteGrupo, horasApoyo));
+
+        bool exito;
+        if (archivoPDF == null)
+        {
+            exito = await Task.Run(() => SolicitudBLL.GuardarSolicitud(id, dias, fechaInicio, fechaFin, horaInicio, horaFin, motivo, area, horasFrenteGrupo, horasApoyo));
+
+        }
+        else
+        {
+            exito = await Task.Run(() => SolicitudBLL.GuardarSolicitud(id, dias, fechaInicio, fechaFin, horaInicio, horaFin, motivo, area, horasFrenteGrupo, horasApoyo, archivoPDF));
+
+        }
         await MostrarCargando(false);
 
         if (exito)

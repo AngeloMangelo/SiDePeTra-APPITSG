@@ -188,6 +188,25 @@
                 PlaceholderColor="#B0B0B0"/>
                         </VerticalStackLayout>
 
+                        <!-- Adjuntar PDF -->
+                        <Button Text="Subir archivo PDF"
+                             Clicked="BtnSeleccionarPDF_Clicked"
+                             BackgroundColor="#FF6B6B"
+                             TextColor="White"
+                             FontAttributes="Bold"
+                             ImageSource="pdf.svg"/>
+                        <Label x:Name="lblArchivoSeleccionado"
+                             Text="Ningún archivo seleccionado"
+                             FontSize="12"
+                             TextColor="LightGray"
+                             LineBreakMode="CharacterWrap" />
+                        <Label x:Name="lblAviso"
+                             Text="* Solo puedes subir un archivo .pdf no mayor a 5mb"
+                             FontSize="9"
+                             FontAttributes="Bold"
+                             TextColor="LightGray"
+                             LineBreakMode="CharacterWrap" />
+
                         <!-- Botón Enviar -->
                         <Button Text="Enviar Solicitud" 
             BackgroundColor="MediumPurple" 

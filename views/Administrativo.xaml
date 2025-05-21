@@ -9,24 +9,25 @@
         <VerticalStackLayout Padding="30" Spacing="25">
 
             <Label Text="Datos del Usuario"
-                   FontSize="28"
+                   FontSize="30"
                    FontAttributes="Bold"
                    HorizontalOptions="Center" />
 
-            <Label Text="Nombre completo:" FontAttributes="Bold" />
+            <Label Text="Nombre completo:" FontAttributes="Bold" FontSize="20" TextColor="#D7A7D6"/>
             <Label x:Name="lblNombreCompleto" Text="---" />
 
-            <Label Text="Número de empleado:" FontAttributes="Bold" />
+            <Label Text="Número de empleado:" FontAttributes="Bold" FontSize="20" TextColor="#D7A7D6"/>
             <Label x:Name="lblNoEmpleado" Text="---" />
 
-            <Label Text="Tipo de usuario:" FontAttributes="Bold" />
+            <Label Text="Tipo de usuario:" FontAttributes="Bold" FontSize="20" TextColor="#D7A7D6"/>
             <Label x:Name="lblTipoUsuario" Text="---" />
 
             <Button Text="Cerrar sesión"
                     BackgroundColor="Red"
                     TextColor="White"
                     Clicked="CerrarSesion_Clicked"
-                    CornerRadius="12" />
+                    CornerRadius="12" 
+                    ImageSource="logout.svg"/>
 
         </VerticalStackLayout>
     </ScrollView>
