@@ -50,7 +50,7 @@ namespace SiDePeTra_APPITSG.views
             btnIngresar.IsEnabled = false;
             overlayCargando.IsVisible = true;
 
-            await Task.Delay(100); // dejar que se muestre el loader
+            
 
             bool existe = await Task.Run(() => UsuarioBLL.ValidarExistenciaUsuario(idIngresado));
 

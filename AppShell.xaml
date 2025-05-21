@@ -4,9 +4,13 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:view="clr-namespace:SiDePeTra_APPITSG.views"
-    Shell.FlyoutBehavior="Disabled">
+    Shell.FlyoutBehavior="Disabled"
+    
+    Shell.TabBarTitleColor="#D7A7D6">
 
     
+    <!-- Texto -->
+
     <!-- Página de Login -->
     <ShellContent Route="LoginPage"
                   ContentTemplate="{DataTemplate view:LoginPage}" />
@@ -22,7 +26,7 @@
             <ShellContent ContentTemplate="{DataTemplate view:HistorialPage}" />
         </Tab>
 
-        <Tab x:Name="TabAdministrativo" Title="Usuario" Icon="administrativo.svg">
+        <Tab x:Name="TabAdministrativo" Title="Usuario" Icon="user.svg">
             <ShellContent ContentTemplate="{DataTemplate view:Administrativo}" />
         </Tab>
 

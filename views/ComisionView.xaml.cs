@@ -81,8 +81,10 @@ namespace SiDePeTra_APPITSG.views
                     return;
                 }
 
+                overlayCargando.IsVisible = true;
                 bool exito = SolicitudBLL.GuardarSolicitudComision(
                     id, tipoUsuario, hoy, fechaComision, horaInicio, horaFin, area, actividad, archivoPDF);
+                overlayCargando.IsVisible = false;
 
                 if (exito)
                 {
@@ -99,6 +101,15 @@ namespace SiDePeTra_APPITSG.views
             catch (Exception ex)
             {
                 await Application.Current.MainPage.DisplayAlert("Excepción", ex.Message, "OK");
+            }
+        }
+
+        public async Task MostrarCargando(bool mostrar)
+        {
+            if (overlayCargando != null)
+            {
+                overlayCargando.IsVisible = mostrar;
+                await Task.Delay(100); // pequeña espera visual
             }
         }
 

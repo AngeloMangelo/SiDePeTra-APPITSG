@@ -7,9 +7,10 @@ using Microsoft.Maui.Devices;
 public partial class Solicitud : ContentPage
 {
     private Timer timer;
-	public Solicitud()
+
+    public Solicitud()
 	{
-		InitializeComponent();
+        InitializeComponent();
         IniciarActualizacionHora();
 	}
 
@@ -45,6 +46,14 @@ public partial class Solicitud : ContentPage
     {
         base.OnDisappearing();
         timer?.Stop();
+    }
+    public async Task MostrarCargando(bool mostrar)
+    {
+        if (overlayCargando != null)
+        {
+            overlayCargando.IsVisible = mostrar;
+            await Task.Delay(100); // pequeña espera visual
+        }
     }
 
     private void pickerTipo_SelectedIndexChanged(object sender, EventArgs e)
@@ -150,8 +159,10 @@ public partial class Solicitud : ContentPage
         TimeSpan horaInicio = tpHoraInicio.Time;
         TimeSpan horaFin = tpHoraFin.Time;
 
-
-        bool exito = SolicitudBLL.GuardarSolicitud(id, dias, fechaInicio, fechaFin, horaInicio, horaFin, motivo, area, horasFrenteGrupo, horasApoyo);
+        await MostrarCargando(true);
+        await Task.Delay(100); // dejar que se muestre el loader
+        bool exito = await Task.Run(() => SolicitudBLL.GuardarSolicitud(id, dias, fechaInicio, fechaFin, horaInicio, horaFin, motivo, area, horasFrenteGrupo, horasApoyo));
+        await MostrarCargando(false);
 
         if (exito)
         {

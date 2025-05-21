@@ -3,98 +3,122 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SiDePeTra_APPITSG.views.ComisionView"
              BackgroundColor="#121212">
-    <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="15">
+    <Grid>
+        <ScrollView>
+            <VerticalStackLayout Padding="20" Spacing="15">
 
-            <Label Text="Comisión por trabajos extraordinarios"
+                <Label Text="Comisión por trabajos extraordinarios"
                    FontSize="24"
                    FontAttributes="Bold"
                    TextColor="#FF6B6B"
                    HorizontalOptions="Center" />
 
-            <!-- Nombre y No. Empleado -->
-            <Label x:Name="lblNombre" TextColor="White" FontAttributes="Bold" />
-            <Label x:Name="lblNoEmpleado" TextColor="White" />
+                <!-- Nombre y No. Empleado -->
+                <Label x:Name="lblNombre" TextColor="White" FontAttributes="Bold" FontSize="16"/>
+                <Label x:Name="lblNoEmpleado" TextColor="White" />
 
-            <!-- Fecha actual -->
-            <Label Text="Fecha actual:" TextColor="White" FontAttributes="Bold" />
-            <Label x:Name="lblFechaHoy" TextColor="LightGray" />
+                <!-- Fecha actual -->
+                <Label Text="Fecha actual:" TextColor="White" FontAttributes="Bold" FontSize="16"/>
+                <Label x:Name="lblFechaHoy" TextColor="LightGray" />
 
-            <!-- Fecha de la comisión -->
-            <Label Text="Fecha de la comisión:" TextColor="White" FontAttributes="Bold" />
-            <DatePicker x:Name="dpFechaComision"
+                <!-- Fecha de la comisión -->
+                <Label Text="Fecha de la comisión:" TextColor="White" FontAttributes="Bold" />
+                <DatePicker x:Name="dpFechaComision"
                         BackgroundColor="#1E1E1E"
-                        TextColor="White" />
+                        TextColor="White"/>
 
-            <!-- Hora inicio - fin -->
-            <Label Text="Horario:" TextColor="White" FontAttributes="Bold" />
-            <HorizontalStackLayout Spacing="10">
-                <TimePicker x:Name="tpHoraInicio"
+                <!-- Hora inicio - fin -->
+                <Label Text="Horario:" TextColor="White" FontAttributes="Bold" />
+                <HorizontalStackLayout Spacing="10">
+                    <TimePicker x:Name="tpHoraInicio"
                             WidthRequest="150"
                             BackgroundColor="#1E1E1E"
                             TextColor="White" 
                             PropertyChanged="tpHoraInicio_PropertyChanged"/>
-                <Label Text=" a " TextColor="White" />
-                <TimePicker x:Name="tpHoraFin"
+                    <Label Text=" a " TextColor="White" />
+                    <TimePicker x:Name="tpHoraFin"
                             WidthRequest="150"
                             BackgroundColor="#1E1E1E"
                             TextColor="White" 
                             PropertyChanged="tpHoraFin_PropertyChanged"/>
-            </HorizontalStackLayout>
+                </HorizontalStackLayout>
 
-            <!-- Área de adscripción -->
-            <Label Text="Área de adscripción:" TextColor="White" FontAttributes="Bold" />
-            <Picker x:Name="pickerArea"
+                <!-- Área de adscripción -->
+                <Label Text="Área de adscripción:" TextColor="White" FontAttributes="Bold" />
+                <Picker x:Name="pickerArea"
                     BackgroundColor="#1E1E1E"
                     TextColor="White">
-                <Picker.ItemsSource>
-                    <x:Array Type="{x:Type x:String}">
-                        <x:String>Subdirección académica de investigación e innovación</x:String>
-                        <x:String>Subdirección de extensión y vinculación</x:String>
-                        <x:String>Subdirección de planeación y desarrollo</x:String>
-                        <x:String>Subdirección administrativa</x:String>
-                        <x:String>Dirección general</x:String>
-                    </x:Array>
-                </Picker.ItemsSource>
-            </Picker>
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Subdirección académica de investigación e innovación</x:String>
+                            <x:String>Subdirección de extensión y vinculación</x:String>
+                            <x:String>Subdirección de planeación y desarrollo</x:String>
+                            <x:String>Subdirección administrativa</x:String>
+                            <x:String>Dirección general</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
 
-            <!-- Actividad -->
-            <Label Text="Actividad a realizar:" TextColor="White" FontAttributes="Bold" />
-            <Editor x:Name="txtActividad"
+                <!-- Actividad -->
+                <Label Text="Actividad a realizar:" TextColor="White" FontAttributes="Bold" />
+                <Editor x:Name="txtActividad"
                     Placeholder="Describa brevemente la actividad..."
                     BackgroundColor="#1E1E1E"
                     TextColor="White"
                     HeightRequest="100" />
 
-            <!-- Adjuntar PDF -->
-            <Button Text="Seleccionar archivo PDF"
+                <!-- Adjuntar PDF -->
+                <Button Text="Subir archivo PDF"
                     Clicked="BtnSeleccionarPDF_Clicked"
                     BackgroundColor="#FF6B6B"
                     TextColor="White"
-                    FontAttributes="Bold" />
-            <Label x:Name="lblArchivoSeleccionado"
+                    FontAttributes="Bold"
+                        ImageSource="pdf.svg"/>
+                <Label x:Name="lblArchivoSeleccionado"
                    Text="Ningún archivo seleccionado"
                    FontSize="12"
                    TextColor="LightGray"
                    LineBreakMode="CharacterWrap" />
+                <Label x:Name="lblAviso"
+                   Text="* Solo puedes subir un archivo .pdf no mayor a 5mb"
+                   FontSize="9"
+                   FontAttributes="Bold"
+                   TextColor="LightGray"
+                   LineBreakMode="CharacterWrap" />
 
-            <!-- Botones -->
-            <Button Text="Enviar solicitud"
+                <!-- Botones -->
+                <Button Text="Enviar solicitud"
                     Clicked="BtnEnviarSolicitud_Clicked"
-                    BackgroundColor="#00BFFF"
+                    BackgroundColor="MediumPurple"
                     TextColor="White"
                     FontAttributes="Bold"
                     CornerRadius="10"
                     HeightRequest="50"
-                    Margin="0,20,0,10" />
+                    Margin="0,20,0,10" 
+                    ImageSource="enviar.svg"/>
 
-            <Button Text="Volver a solicitud normal"
+                <Button Text="Volver a solicitud normal"
                     Clicked="BtnVolver_Clicked"
                     BackgroundColor="Transparent"
                     TextColor="#FF6B6B"
                     FontAttributes="Italic"
                     FontSize="14" />
 
-        </VerticalStackLayout>
-    </ScrollView>
+            </VerticalStackLayout>
+        </ScrollView>
+        <!-- Overlay de carga -->
+        <Grid x:Name="overlayCargando"
+      IsVisible="False"
+      BackgroundColor="#80000000"
+      VerticalOptions="FillAndExpand"
+      HorizontalOptions="FillAndExpand"
+      ZIndex="999">
+            <ActivityIndicator IsRunning="True"
+                       Color="White"
+                       WidthRequest="50"
+                       HeightRequest="50"
+                       VerticalOptions="Center"
+                       HorizontalOptions="Center"/>
+        </Grid>
+    </Grid>
 </ContentView>
