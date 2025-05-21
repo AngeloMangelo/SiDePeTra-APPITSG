@@ -16,7 +16,6 @@ namespace SiDePeTra_APPITSG.views
         {
             base.OnAppearing();
 
-            // Mostrar placeholders mientras se cargan los datos
             collectionSolicitudes.ItemsSource = ObtenerPlaceholders();
 
             if (Connectivity.NetworkAccess != NetworkAccess.Internet)
