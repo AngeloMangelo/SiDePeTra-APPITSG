@@ -1,177 +1,208 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:SiDePeTra_APPITSG.views"
              x:Class="SiDePeTra_APPITSG.views.Solicitud"
              Title="Solicitud"
              BackgroundColor="#121212">
+
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="15">
 
-            <!-- Título -->
-            <Label Text="Generar Solicitud de Horas" 
-                   FontSize="24"  
-                   FontAttributes="Bold"
-                   TextColor="#FF6B6B" 
-                   HorizontalOptions="Center"/>
+            <!-- Selector de tipo de solicitud -->
+            <Label Text="Selecciona el tipo de solicitud"
+                   TextColor="White"
+                   FontAttributes="Bold" />
 
-            <!-- Hora y Fecha Actual -->
-            <Label x:Name="lblHoraFecha" 
-                   FontSize="16" 
-                   TextColor="White" 
-                   HorizontalOptions="Center"/>
-
-
-            <BoxView HeightRequest="2" BackgroundColor="#FF6B6B" Margin="0,10"/>
-
-            <!-- Datos del Usuario -->
-            <VerticalStackLayout Spacing="5">
-                <Label x:Name="lblNombre"
-                        Text="Nombre:"
-                       TextColor="#FF6B6B"
-                       FontAttributes="Bold"
-                       FontSize="18"/>
-
-                <Label x:Name="lblNoEmpleado"
-                       Text="No. Empleado:"
-                       TextColor="#FF6B6B"
-                       FontAttributes="Bold"
-                       FontSize="18"/>
-            </VerticalStackLayout>
-
-            <BoxView HeightRequest="2" BackgroundColor="#FF6B6B" Margin="0,10"/>
-
-            <!-- Días Solicitados -->
-            <HorizontalStackLayout Spacing="10">
-                <Label Text="Día(s) Solicitado(s):" 
-                       TextColor="White" 
-                       FontAttributes="Bold"/>
-                <Entry x:Name="txtDiasSolicitados" 
-                       BackgroundColor="#1E1E1E" 
-                       TextColor="White" 
-                       Keyboard="Numeric"
-                       WidthRequest="60"
-                       HeightRequest="40"
-                       Text="0"
-                       TextChanged="TxtDiasSolicitados_TextChanged"
-                       Unfocused="TxtDiasSolicitados_Unfocused"
-                       Focused="TxtDiasSolicitados_Focused"/>
-            </HorizontalStackLayout>
-
-            <Label x:Name="lblTipoSolicitud"
-                Text="Solicitud por horas"
-                FontAttributes="Italic"
-                FontSize="14"
-                TextColor="LightGray" />
-
-
-            <!-- Fechas -->
-            <VerticalStackLayout Spacing="10">
-                <Label Text="Periodo de Solicitud:" 
-                       TextColor="White" 
-                       FontAttributes="Bold"/>
-                <HorizontalStackLayout Spacing="10">
-                    <DatePicker x:Name="dpFechaInicio" 
-                                TextColor="White" 
-                                BackgroundColor="#1E1E1E"
-                                WidthRequest="150"/>
-                    <Label Text=" a " TextColor="White"/>
-                    <DatePicker x:Name="dpFechaFin" 
-                                TextColor="White" 
-                                BackgroundColor="#1E1E1E"
-                                WidthRequest="150"/>
-                </HorizontalStackLayout>
-            </VerticalStackLayout>
-
-            <!-- Horarios -->
-            <VerticalStackLayout Spacing="10">
-                <Label Text="Horario Solicitado:" 
-                       TextColor="White" 
-                       FontAttributes="Bold"/>
-                <HorizontalStackLayout Spacing="10">
-                    <TimePicker x:Name="tpHoraInicio" 
-                                TextColor="White" 
-                                BackgroundColor="#1E1E1E"
-                                WidthRequest="150"
-                                PropertyChanged="TpHoraInicio_PropertyChanged"/>
-                    <Label Text=" a " TextColor="White"/>
-                    <TimePicker x:Name="tpHoraFin" 
-                                TextColor="White" 
-                                BackgroundColor="#1E1E1E"
-                                WidthRequest="150"
-                                PropertyChanged="TpHoraFin_PropertyChanged"/>
-                </HorizontalStackLayout>
-            </VerticalStackLayout>
-
-            <VerticalStackLayout Spacing="10">
-                <Label Text="No. de hora(s) frente al grupo:" 
-                    TextColor="White" 
-                    FontAttributes="Bold"/>
-                <Entry x:Name="txtHorasFrenteGrupo"
-                    Keyboard="Numeric"
-                    Placeholder="Ej: 2"
+            <Picker x:Name="pickerTipo"
+                    SelectedIndexChanged="pickerTipo_SelectedIndexChanged"
                     BackgroundColor="#1E1E1E"
-                    TextColor="White"
-                    PlaceholderColor="#B0B0B0"
-                    HeightRequest="40"/>
-            </VerticalStackLayout>
+                    TextColor="White">
+                <Picker.Items>
+                    <x:String>Solicitud normal</x:String>
+                    <x:String>Comisión extraordinaria</x:String>
+                </Picker.Items>
+            </Picker>
 
-            <VerticalStackLayout Spacing="10">
-                <Label Text="No. de hora(s) apoyo académico:" 
-                    TextColor="White" 
-                    FontAttributes="Bold"/>
-                <Entry x:Name="txtHorasApoyo"
-                    Keyboard="Numeric"
-                    Placeholder="Ej: 1"
-                    BackgroundColor="#1E1E1E"
-                    TextColor="White"
-                    PlaceholderColor="#B0B0B0"
-                    HeightRequest="40"/>
-            </VerticalStackLayout>
+            <!-- Vista de solicitud normal (formulario ya existente) -->
+            <ContentView x:Name="viewSolicitudNormal">
+                <VerticalStackLayout Padding="20" Spacing="15">
+
+                    <!-- Título -->
+                    <Label Text="Generar Solicitud de Horas" 
+           FontSize="24"  
+           FontAttributes="Bold"
+           TextColor="#FF6B6B" 
+           HorizontalOptions="Center"/>
+
+                    <!-- Hora y Fecha Actual -->
+                    <Label x:Name="lblHoraFecha" 
+           FontSize="16" 
+           TextColor="White" 
+           HorizontalOptions="Center"/>
 
 
-            <VerticalStackLayout>
-                <Label Text="Área de Adscripción:"
-           TextColor="White"
-           FontAttributes="Bold"/>
+                    <BoxView HeightRequest="2" BackgroundColor="#FF6B6B" Margin="0,10"/>
 
-                <Picker x:Name="pickerArea"
-            Title="Seleccione un área"
+                    <!-- Datos del Usuario -->
+                    <VerticalStackLayout Spacing="5">
+                        <Label x:Name="lblNombre"
+                Text="Nombre:"
+               TextColor="#FF6B6B"
+               FontAttributes="Bold"
+               FontSize="18"/>
+
+                        <Label x:Name="lblNoEmpleado"
+               Text="No. Empleado:"
+               TextColor="#FF6B6B"
+               FontAttributes="Bold"
+               FontSize="18"/>
+                    </VerticalStackLayout>
+
+                    <BoxView HeightRequest="2" BackgroundColor="#FF6B6B" Margin="0,10"/>
+
+                    <!-- Días Solicitados -->
+                    <HorizontalStackLayout Spacing="10">
+                        <Label Text="Día(s) Solicitado(s):" 
+               TextColor="White" 
+               FontAttributes="Bold"/>
+                        <Entry x:Name="txtDiasSolicitados" 
+               BackgroundColor="#1E1E1E" 
+               TextColor="White" 
+               Keyboard="Numeric"
+               WidthRequest="60"
+               HeightRequest="40"
+               Text="0"
+               TextChanged="TxtDiasSolicitados_TextChanged"
+               Unfocused="TxtDiasSolicitados_Unfocused"
+               Focused="TxtDiasSolicitados_Focused"/>
+                    </HorizontalStackLayout>
+
+                    <Label x:Name="lblTipoSolicitud"
+        Text="Solicitud por horas"
+        FontAttributes="Italic"
+        FontSize="14"
+        TextColor="LightGray" />
+
+
+                    <!-- Fechas -->
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Periodo de Solicitud:" 
+               TextColor="White" 
+               FontAttributes="Bold"/>
+                        <HorizontalStackLayout Spacing="10">
+                            <DatePicker x:Name="dpFechaInicio" 
+                        TextColor="White" 
+                        BackgroundColor="#1E1E1E"
+                        WidthRequest="150"
+                        DateSelected="dpFechaInicio_DateSelected"/>
+                            <Label Text=" a " TextColor="White"/>
+                            <DatePicker x:Name="dpFechaFin" 
+                        TextColor="White" 
+                        BackgroundColor="#1E1E1E"
+                        WidthRequest="150"/>
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+
+                    <!-- Horarios -->
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Horario Solicitado:" 
+               TextColor="White" 
+               FontAttributes="Bold"/>
+                        <HorizontalStackLayout Spacing="10">
+                            <TimePicker x:Name="tpHoraInicio" 
+                        TextColor="White" 
+                        BackgroundColor="#1E1E1E"
+                        WidthRequest="150"
+                        PropertyChanged="TpHoraInicio_PropertyChanged"/>
+                            <Label Text=" a " TextColor="White"/>
+                            <TimePicker x:Name="tpHoraFin" 
+                        TextColor="White" 
+                        BackgroundColor="#1E1E1E"
+                        WidthRequest="150"
+                        PropertyChanged="TpHoraFin_PropertyChanged"/>
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="No. de hora(s) frente al grupo:" 
+            TextColor="White" 
+            FontAttributes="Bold"/>
+                        <Entry x:Name="txtHorasFrenteGrupo"
+            Keyboard="Numeric"
+            Placeholder="Ej: 2"
+            BackgroundColor="#1E1E1E"
             TextColor="White"
-            BackgroundColor="#1E1E1E">
-                    <Picker.ItemsSource>
-                        <x:Array Type="{x:Type x:String}">
-                            <x:String>Subdirección académica de investigación e innovación</x:String>
-                            <x:String>Subdirección de extensión y vinculación</x:String>
-                            <x:String>Subdirección de planeación y desarrollo</x:String>
-                            <x:String>Subdirección administrativa</x:String>
-                            <x:String>Dirección general</x:String>
-                        </x:Array>
-                    </Picker.ItemsSource>
-                </Picker>
-            </VerticalStackLayout>
+            PlaceholderColor="#B0B0B0"
+            HeightRequest="40"/>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="No. de hora(s) apoyo académico:" 
+            TextColor="White" 
+            FontAttributes="Bold"/>
+                        <Entry x:Name="txtHorasApoyo"
+            Keyboard="Numeric"
+            Placeholder="Ej: 1"
+            BackgroundColor="#1E1E1E"
+            TextColor="White"
+            PlaceholderColor="#B0B0B0"
+            HeightRequest="40"/>
+                    </VerticalStackLayout>
 
 
-            <!-- Motivo -->
-            <VerticalStackLayout>
-                <Label Text="Motivo:" TextColor="White" FontAttributes="Bold"/>
-                <Editor x:Name="txtMotivo" 
-                        HeightRequest="100" 
-                        BackgroundColor="#1E1E1E" 
-                        TextColor="White"
-                        Placeholder="Escriba el motivo aquí..."
-                        PlaceholderColor="#B0B0B0"/>
-            </VerticalStackLayout>
+                    <VerticalStackLayout>
+                        <Label Text="Área de Adscripción:"
+   TextColor="White"
+   FontAttributes="Bold"/>
 
-            <!-- Botón Enviar -->
-            <Button Text="Enviar Solicitud" 
-                    BackgroundColor="#FF6B6B" 
-                    TextColor="White" 
-                    FontAttributes="Bold"
-                    HeightRequest="50"
-                    CornerRadius="10"
-                    Margin="0,20,0,10"
-                    Clicked="BtnEnviarSolicitud_Clicked"/>
+                        <Picker x:Name="pickerArea"
+    Title="Seleccione un área"
+    TextColor="White"
+    BackgroundColor="#1E1E1E">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>Subdirección académica de investigación e innovación</x:String>
+                                    <x:String>Subdirección de extensión y vinculación</x:String>
+                                    <x:String>Subdirección de planeación y desarrollo</x:String>
+                                    <x:String>Subdirección administrativa</x:String>
+                                    <x:String>Dirección general</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                    </VerticalStackLayout>
+
+
+                    <!-- Motivo -->
+                    <VerticalStackLayout>
+                        <Label Text="Motivo:" TextColor="White" FontAttributes="Bold"/>
+                        <Editor x:Name="txtMotivo" 
+                HeightRequest="100" 
+                BackgroundColor="#1E1E1E" 
+                TextColor="White"
+                Placeholder="Escriba el motivo aquí..."
+                PlaceholderColor="#B0B0B0"/>
+                    </VerticalStackLayout>
+
+                    <!-- Botón Enviar -->
+                    <Button Text="Enviar Solicitud" 
+            BackgroundColor="#FF6B6B" 
+            TextColor="White" 
+            FontAttributes="Bold"
+            HeightRequest="50"
+            CornerRadius="10"
+            Margin="0,20,0,10"
+            Clicked="BtnEnviarSolicitud_Clicked"/>
+
+                </VerticalStackLayout>
+            </ContentView>
+
+            <!-- Vista de comisión (ya construida como ContentView) -->
+            <views:ComisionView x:Name="viewComision"
+                                IsVisible="False"
+                                VolverSolicitudes="viewComision_VolverSolicitudes"/>
 
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
+

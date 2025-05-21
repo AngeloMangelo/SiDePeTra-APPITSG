@@ -47,6 +47,32 @@ public partial class Solicitud : ContentPage
         timer?.Stop();
     }
 
+    private void pickerTipo_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        MostrarVistaSeleccionada();
+    }
+
+    private void MostrarVistaSeleccionada()
+    {
+        if (pickerTipo.SelectedIndex == 0)
+        {
+            viewSolicitudNormal.IsVisible = true;
+            viewComision.IsVisible = false;
+        }
+        else
+        {
+            viewSolicitudNormal.IsVisible = false;
+            viewComision.IsVisible = true;
+        }
+    }
+
+    private void viewComision_VolverSolicitudes(object sender, EventArgs e)
+    {
+        pickerTipo.SelectedIndex = 0;
+        MostrarVistaSeleccionada();
+    }
+
+
     private void AplicarLogicaDias()
     {
         // Si está vacío, poner 0
@@ -61,7 +87,7 @@ public partial class Solicitud : ContentPage
             tpHoraInicio.IsEnabled = true;
             tpHoraFin.IsEnabled = true;
 
-            dpFechaInicio.IsEnabled = false;
+            dpFechaInicio.IsEnabled = true;
             dpFechaFin.IsEnabled = false;
 
             dpFechaInicio.Date = DateTime.Today;
@@ -76,7 +102,7 @@ public partial class Solicitud : ContentPage
             tpHoraInicio.IsEnabled = false;
             tpHoraFin.IsEnabled = false;
 
-            dpFechaInicio.IsEnabled = false;
+            dpFechaInicio.IsEnabled = true;
             dpFechaFin.IsEnabled = false;
 
             DateTime inicio = CalcularProximoDiaHabil(DateTime.Today);
@@ -169,35 +195,6 @@ public partial class Solicitud : ContentPage
     private void TxtDiasSolicitados_TextChanged(object sender, TextChangedEventArgs e)
     {
         AplicarLogicaDias();
-
-        if (!int.TryParse(txtDiasSolicitados.Text, out int dias) || dias <= 0)
-        {
-            //Solicitud por HORAS
-            tpHoraInicio.IsEnabled = true;
-            tpHoraFin.IsEnabled = true;
-
-            dpFechaInicio.IsEnabled = false;
-            dpFechaFin.IsEnabled = false;
-
-            dpFechaInicio.Date = DateTime.Today;
-            dpFechaFin.Date = DateTime.Today;
-        }
-        else
-        {
-            //Solicitud por DÍAS
-            tpHoraInicio.IsEnabled = false;
-            tpHoraFin.IsEnabled = false;
-
-            dpFechaInicio.IsEnabled = false;
-            dpFechaFin.IsEnabled = false;
-
-            // Calcular fechas hábiles
-            DateTime inicio = CalcularProximoDiaHabil(DateTime.Today);
-            DateTime fin = CalcularFechaFinDiasHabiles(inicio, dias - 1); // ya cuenta el primer día
-
-            dpFechaInicio.Date = inicio;
-            dpFechaFin.Date = fin;
-        }
     }
 
     private async void TpHoraInicio_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -273,6 +270,15 @@ public partial class Solicitud : ContentPage
         return fecha;
     }
 
+    private void dpFechaInicio_DateSelected(object sender, DateChangedEventArgs e)
+    {
+        if (int.TryParse(txtDiasSolicitados.Text, out int dias) && dias >= 0)
+        {
+            DateTime nuevaFechaInicio = dpFechaInicio.Date;
 
+            DateTime nuevaFechaFin = CalcularFechaFinDiasHabiles(nuevaFechaInicio, dias - 1);
 
+            dpFechaFin.Date = nuevaFechaFin;
+        }
+    }
 }
