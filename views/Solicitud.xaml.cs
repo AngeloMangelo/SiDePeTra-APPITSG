@@ -63,21 +63,21 @@ public partial class Solicitud : ContentPage
 
     private void MostrarVistaSeleccionada()
     {
-        if (pickerTipo.SelectedIndex == 0)
-        {
-            viewSolicitudNormal.IsVisible = true;
-            viewComision.IsVisible = false;
-        }
-        else
-        {
-            viewSolicitudNormal.IsVisible = false;
-            viewComision.IsVisible = true;
-        }
+        //if (pickerTipo.SelectedIndex == 0)
+        //{
+        //    viewSolicitudNormal.IsVisible = true;
+        //    viewComision.IsVisible = false;
+        //}
+        //else
+        //{
+        //    viewSolicitudNormal.IsVisible = false;
+        //    viewComision.IsVisible = true;
+        //}
     }
 
     private void viewComision_VolverSolicitudes(object sender, EventArgs e)
     {
-        pickerTipo.SelectedIndex = 0;
+        //pickerTipo.SelectedIndex = 0;
         MostrarVistaSeleccionada();
     }
 
@@ -148,6 +148,8 @@ public partial class Solicitud : ContentPage
                 await stream.CopyToAsync(ms);
                 archivoPDF = ms.ToArray();
                 lblArchivoSeleccionado.Text = result.FileName;
+                btnEliminarPDF.IsVisible = true;
+
             }
             else
             {
@@ -155,6 +157,14 @@ public partial class Solicitud : ContentPage
             }
         }
     }
+
+    private void BtnEliminarPDF_Clicked(object sender, EventArgs e)
+    {
+        archivoPDF = null;
+        lblArchivoSeleccionado.Text = "Ningún archivo seleccionado";
+        btnEliminarPDF.IsVisible = false;
+    }
+
 
 
     private async void BtnEnviarSolicitud_Clicked(object sender, EventArgs e)
@@ -191,6 +201,12 @@ public partial class Solicitud : ContentPage
                 return;
         }
 
+        if (Connectivity.NetworkAccess != NetworkAccess.Internet)
+        {
+            await DisplayAlert("Sin conexión", "No tienes conexión a Internet. Verifica tu red e intenta de nuevo.", "OK");
+            return;
+        }
+
 
 
         string area = pickerArea.SelectedItem.ToString();
@@ -202,6 +218,10 @@ public partial class Solicitud : ContentPage
         DateTime fechaFin = dpFechaFin.Date;
         TimeSpan horaInicio = tpHoraInicio.Time;
         TimeSpan horaFin = tpHoraFin.Time;
+
+        btnEnviar.IsEnabled = false;
+        btnSubirPdf.IsEnabled = false;
+        //pickerTipo.IsEnabled = false;
 
         await MostrarCargando(true);
         await Task.Delay(100); // dejar que se muestre el loader
@@ -218,6 +238,10 @@ public partial class Solicitud : ContentPage
 
         }
         await MostrarCargando(false);
+
+        btnEnviar.IsEnabled = true;
+        btnSubirPdf.IsEnabled = true;
+        //pickerTipo.IsEnabled = true;
 
         if (exito)
         {
@@ -269,6 +293,7 @@ public partial class Solicitud : ContentPage
         {
             var horaInicio = tpHoraInicio.Time;
             var horaFin = tpHoraFin.Time;
+
 
             if (horaFin <= horaInicio)
             {
@@ -345,6 +370,13 @@ public partial class Solicitud : ContentPage
             DateTime nuevaFechaFin = CalcularFechaFinDiasHabiles(nuevaFechaInicio, dias - 1);
 
             dpFechaFin.Date = nuevaFechaFin;
+        }
+
+        DateTime unDiaAntes = DateTime.Today.AddDays(-1);
+        if (dpFechaInicio.Date < unDiaAntes)
+        {
+            DisplayAlert("Fecha invalida", "No puedes hacer una solicitud de hace dos dias, el maximo es un dia antes.", "OK");
+            dpFechaInicio.Date = DateTime.Today;
         }
     }
 }

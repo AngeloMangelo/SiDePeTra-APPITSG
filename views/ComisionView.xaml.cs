@@ -53,12 +53,20 @@ namespace SiDePeTra_APPITSG.views
                     await stream.CopyToAsync(ms);
                     archivoPDF = ms.ToArray();
                     lblArchivoSeleccionado.Text = result.FileName;
+                    btnEliminarPDF.IsVisible = true;
                 }
                 else
                 {
                     await Application.Current.MainPage.DisplayAlert("Formato no válido", "Solo se permiten archivos PDF.", "OK");
                 }
             }
+        }
+
+        private void BtnEliminarPDF_Clicked(object sender, EventArgs e)
+        {
+            archivoPDF = null;
+            lblArchivoSeleccionado.Text = "Ningún archivo seleccionado";
+            btnEliminarPDF.IsVisible = false;
         }
 
         private async void BtnEnviarSolicitud_Clicked(object sender, EventArgs e)

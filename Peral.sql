@@ -28,7 +28,7 @@ Select NoEmpleado, Nombre, ApellidoPaterno, ApellidoMaterno, TipoUsuario from Us
 					select PEM.Solicitudes, PEM.Fecha, concat(Us.Nombre, ' ', Us.ApellidoPaterno, ' ', Us.ApellidoMaterno) as Usuario, PEM.Estado From PERMISO PEM inner join Usuarios Us on Us.NoEmpleado = PEM.NoEmpPro WHERE Us.NoEmpleado ='ZAJA01040411HL'
 
 SELECT COUNT(*) FROM Usuarios WHERE NoEmpleado = 'SAJA020118HSLNMNA8'
---nueva version
+
 Create table PERMISO(
 Solicitudes int primary key not null identity(1,1), 
 Fecha datetime  null,	
@@ -45,11 +45,15 @@ AREAADSCRIPCION Nvarchar(60),
 HFrenGrupo decimal(4,2) null,
 HApoCad decimal(4,2) null,
 MOTIVO Nvarchar(100)  null,
+tipoMotivo Nvarchar(20) not null
+constraint tipoMotivo Check(tipoMotivo IN('Personal','Salud')),
+categorias Nvarchar(50) null
+constraint categorias check(categorias In('Maternidad', 'Paternidad', 'Fallecimiento', 'Baja Medica', 'Urgencia')),
 Goce bit  null,
 sinGoce bit  null,
 OBSERVACIONES Nvarchar(100) null,
 Estado varchar(14)  null
-CONSTRAINT Estado CHECK (Estado IN ('Espera', 'Aceptado', 'Rechazado')),
+constraint Estado Check (Estado IN ('Administracion', 'Aceptado', 'Rechazado', 'En Divicion', 'Expirado')),
 QUIENAUTORIZA Nvarchar(100)
 foreign key (NoEmpPro) references Usuarios(NoEmpleado)
 )
@@ -85,3 +89,5 @@ Select PEM.Solicitudes, PEM.Fecha, concat(Us.Nombre, ' ', Us.ApellidoPaterno, ' 
 
 
 SELECT *FROM PERMISO
+
+EXEC sp_help PERMISO;

@@ -79,6 +79,15 @@
                    FontSize="12"
                    TextColor="LightGray"
                    LineBreakMode="CharacterWrap" />
+                <Button Text="Eliminar archivo"
+                        x:Name="btnEliminarPDF"
+                        Clicked="BtnEliminarPDF_Clicked"
+                        BackgroundColor="#444"
+                        TextColor="White"
+                        FontAttributes="Italic"
+                        FontSize="12"
+                        IsVisible="False"
+                        ImageSource="cancel.svg"/>
                 <Label x:Name="lblAviso"
                    Text="* Solo puedes subir un archivo .pdf no mayor a 5mb"
                    FontSize="9"

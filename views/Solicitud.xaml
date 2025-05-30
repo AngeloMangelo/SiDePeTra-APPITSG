@@ -11,7 +11,7 @@
             <VerticalStackLayout Padding="20" Spacing="15">
 
                 <!-- Selector de tipo de solicitud -->
-                <Label Text="Selecciona el tipo de solicitud:"
+                <!--<Label Text="Selecciona el tipo de solicitud:"
                    TextColor="White"
                    FontAttributes="Bold"
                        FontSize="20"
@@ -26,7 +26,7 @@
                         <x:String>Solicitud normal</x:String>
                         <x:String>Comisión extraordinaria</x:String>
                     </Picker.Items>
-                </Picker>
+                </Picker>-->
 
                 <!-- Vista de solicitud normal (formulario ya existente) -->
                 <ContentView x:Name="viewSolicitudNormal">
@@ -157,13 +157,13 @@
 
                         <VerticalStackLayout>
                             <Label Text="Área de Adscripción:"
-   TextColor="White"
-   FontAttributes="Bold"/>
+                                TextColor="White"
+                                FontAttributes="Bold"/>
 
                             <Picker x:Name="pickerArea"
-    Title="Seleccione un área"
-    TextColor="White"
-    BackgroundColor="#1E1E1E">
+                                Title="Seleccione un área"
+                                TextColor="White"
+                                BackgroundColor="#1E1E1E">
                                 <Picker.ItemsSource>
                                     <x:Array Type="{x:Type x:String}">
                                         <x:String>Subdirección académica de investigación e innovación</x:String>
@@ -175,6 +175,25 @@
                                 </Picker.ItemsSource>
                             </Picker>
                         </VerticalStackLayout>
+
+                        <VerticalStackLayout>
+                            <Label Text="Tipo de Motivo:"
+                                TextColor="White"
+                                FontAttributes="Bold"/>
+
+                            <Picker x:Name="pickerMotivo"
+                                Title="Seleccione un Motivo"
+                                TextColor="White"
+                                BackgroundColor="#1E1E1E">
+                                <Picker.ItemsSource>
+                                    <x:Array Type="{x:Type x:String}">
+                                        <x:String>Personal</x:String>
+                                        <x:String>Salud</x:String>
+                                    </x:Array>
+                                </Picker.ItemsSource>
+                            </Picker>
+                        </VerticalStackLayout>
+
 
 
                         <!-- Motivo -->
@@ -189,7 +208,8 @@
                         </VerticalStackLayout>
 
                         <!-- Adjuntar PDF -->
-                        <Button Text="Subir archivo PDF"
+                        <Button x:Name="btnSubirPdf"
+                             Text="Subir archivo PDF"
                              Clicked="BtnSeleccionarPDF_Clicked"
                              BackgroundColor="#FF6B6B"
                              TextColor="White"
@@ -200,6 +220,16 @@
                              FontSize="12"
                              TextColor="LightGray"
                              LineBreakMode="CharacterWrap" />
+                        <Button Text="Eliminar archivo"
+                             x:Name="btnEliminarPDF"
+                             Clicked="BtnEliminarPDF_Clicked"
+                             BackgroundColor="#444"
+                             TextColor="White"
+                             FontAttributes="Italic"
+                             FontSize="12"
+                             IsVisible="False" 
+                             ImageSource="cancel.svg"/>
+
                         <Label x:Name="lblAviso"
                              Text="* Solo puedes subir un archivo .pdf no mayor a 5mb"
                              FontSize="9"
@@ -208,7 +238,8 @@
                              LineBreakMode="CharacterWrap" />
 
                         <!-- Botón Enviar -->
-                        <Button Text="Enviar Solicitud" 
+                        <Button x:Name="btnEnviar"
+                            Text="Enviar Solicitud" 
             BackgroundColor="MediumPurple" 
             TextColor="White" 
             FontAttributes="Bold"
