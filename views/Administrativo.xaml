@@ -1,33 +1,111 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="SiDePeTra_APPITSG.views.Administrativo"
-             Title="Perfil"
-             BackgroundColor="Black">
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="SiDePeTra_APPITSG.views.Administrativo"
+    Title="Perfil"
+    BackgroundColor="#121212">
 
+    <!-- Scroll para pantallas pequeñas -->
     <ScrollView>
-        <VerticalStackLayout Padding="30" Spacing="25">
+        <VerticalStackLayout Padding="20" Spacing="20">
 
-            <Label Text="Datos del Usuario"
-                   FontSize="30"
-                   FontAttributes="Bold"
-                   HorizontalOptions="Center" />
+            <!-- TÍTULO DE PANTALLA -->
+            <Label
+                Text="Mi Perfil"
+                FontSize="Title"
+                FontAttributes="Bold"
+                TextColor="#E040FB"
+                HorizontalOptions="Center" />
 
-            <Label Text="Nombre completo:" FontAttributes="Bold" FontSize="20" TextColor="#D7A7D6"/>
-            <Label x:Name="lblNombreCompleto" Text="---" />
+            <!-- TARJETA DE INFORMACIÓN GENERAL -->
+            <Frame
+                x:Name="frametarjet"
+                BackgroundColor="#1E1E1E"
+                CornerRadius="12"
+                Padding="20"
+                HasShadow="False">
+                <VerticalStackLayout Spacing="15">
 
-            <Label Text="Número de empleado:" FontAttributes="Bold" FontSize="20" TextColor="#D7A7D6"/>
-            <Label x:Name="lblNoEmpleado" Text="---" />
+                    <!-- Avatar o icono de usuario -->
+                    <Image
+                        Source="avatar_placeholderr.png"
+                        Aspect="AspectFill"
+                        HeightRequest="100"
+                        WidthRequest="100"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        Margin="0,0,0,10"
+                        Clip="EllipseGeometry Center='50,50' RadiusX='50' RadiusY='50'" />
 
-            <Label Text="Tipo de usuario:" FontAttributes="Bold" FontSize="20" TextColor="#D7A7D6"/>
-            <Label x:Name="lblTipoUsuario" Text="---" />
+                    <!-- Nombre completo -->
+                    <Label
+                        Text="Nombre completo"
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        TextColor="#D7A7D6" />
+                    <Frame
+                        BackgroundColor="#121212"
+                        CornerRadius="8"
+                        Padding="10"
+                        HasShadow="False">
+                        <Label
+                            x:Name="lblNombreCompleto"
+                            Text="---"
+                            FontSize="18"
+                            TextColor="White" />
+                    </Frame>
 
-            <Button Text="Cerrar sesión"
-                    BackgroundColor="Red"
-                    TextColor="White"
-                    Clicked="CerrarSesion_Clicked"
-                    CornerRadius="12" 
-                    ImageSource="logout.svg"/>
+                    <!-- Número de empleado -->
+                    <Label
+                        Text="Número de empleado"
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        TextColor="#D7A7D6" />
+                    <Frame
+                        BackgroundColor="#121212"
+                        CornerRadius="8"
+                        Padding="10"
+                        HasShadow="False">
+                        <Label
+                            x:Name="lblNoEmpleado"
+                            Text="---"
+                            FontSize="18"
+                            TextColor="White" />
+                    </Frame>
+
+                    <!-- Tipo de usuario -->
+                    <Label
+                        Text="Tipo de usuario"
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        TextColor="#D7A7D6" />
+                    <Frame
+                        BackgroundColor="#121212"
+                        CornerRadius="8"
+                        Padding="10"
+                        HasShadow="False">
+                        <Label
+                            x:Name="lblTipoUsuario"
+                            Text="---"
+                            FontSize="18"
+                            TextColor="White" />
+                    </Frame>
+
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- BOTÓN CERRAR SESIÓN -->
+            <Button
+                Text="Cerrar sesión"
+                BackgroundColor="#D32F2F"
+                TextColor="White"
+                CornerRadius="12"
+                HeightRequest="50"
+                FontAttributes="Bold"
+                ImageSource="logout.svg"
+                HorizontalOptions="FillAndExpand"
+                Clicked="CerrarSesion_Clicked" />
 
         </VerticalStackLayout>
     </ScrollView>
