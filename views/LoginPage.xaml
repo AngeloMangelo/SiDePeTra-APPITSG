@@ -1,53 +1,113 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="SiDePeTra_APPITSG.views.LoginPage"
-             BackgroundColor="Black"
-             Title="Inicio de sesión">
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="SiDePeTra_APPITSG.views.LoginPage"
+    BackgroundColor="Black"
+    Title="Inicio de sesión">
 
-    <Grid>
-        <!-- Cuerpo principal -->
-        <VerticalStackLayout Padding="30" Spacing="25" VerticalOptions="Center">
-            <Label Text="Bienvenido Docente"
-                   FontSize="28"
-                   FontAttributes="Bold"
-                   HorizontalOptions="Center" />
+    <!--
+      Usamos un Grid de dos filas:
+      - Fila 0: Imagen grande (logo) 
+      - Fila 1: Formulario de login (centrado)
+    -->
+    <Grid RowDefinitions="auto, *" ColumnDefinitions="*">
 
-            <Entry x:Name="entryId"
-                   Placeholder="Ingrese su ID de docente"
-                   Keyboard="Default"
-                   FontSize="18"
-                   MaxLength="20" />
+        <!-- ==============================================
+              FILA 0: aquí va la imagen de la aplicación 
+             ============================================== -->
+        <Image
+            Grid.Row="0"
+            Source="logo_app.png"
+            Aspect="AspectFit"
+            HeightRequest="300"
+            HorizontalOptions="Center"
+            Margin="0,50,0,10" />
 
-            <Button x:Name="btnIngresar"
-                    Text="Ingresar"
-                    FontSize="18"
-                    Clicked="OnLoginClicked"
-                    BackgroundColor="#0077CC"
+        <!-- ==============================================
+              FILA 1: Stack con Label, Entry y Button 
+             ============================================== -->
+        <VerticalStackLayout
+            Grid.Row="1"
+            Padding="30"
+            Spacing="20"
+            VerticalOptions="Center">
+
+            <!-- Título o bienvenida -->
+            <Label
+                Text="Bienvenido, Docente"
+                FontSize="26"
+                FontAttributes="Bold"
+                TextColor="White"
+                HorizontalOptions="Center" />
+
+            <!-- Contenedor para el Entry con estilo moderno -->
+            <Frame
+                BackgroundColor="#1E1E1E"
+                CornerRadius="8"
+                Padding="0"
+                HasShadow="False">
+                <Entry
+                    x:Name="entryId"
+                    Placeholder="ID de docente"
+                    PlaceholderColor="#888"
                     TextColor="White"
-                    CornerRadius="12" />
+                    FontSize="18"
+                    BackgroundColor="Transparent"
+                    Keyboard="Default"
+                    MaxLength="20"
+                    Margin="12,0" />
+            </Frame>
+
+            <!-- Botón principal -->
+            <Button
+                x:Name="btnIngresar"
+                Text="Ingresar"
+                FontSize="18"
+                Clicked="OnLoginClicked"
+                BackgroundColor="#6A0DAD"
+                TextColor="White"
+                CornerRadius="12"
+                HeightRequest="48"
+                HorizontalOptions="Fill" />
+
         </VerticalStackLayout>
 
-        <!-- Overlay de carga -->
-        <Grid x:Name="overlayCargando"
-              IsVisible="False"
-              BackgroundColor="#80000000"
-              VerticalOptions="FillAndExpand"
-              HorizontalOptions="FillAndExpand"
-              Padding="20">
+        <!-- ==============================================
+              OVERLAY PARA CARGA: simplemente se superpone  
+             ============================================== -->
+        <Grid
+            x:Name="overlayCargando"
+            IsVisible="False"
+            BackgroundColor="#80000000"
+            VerticalOptions="FillAndExpand"
+            HorizontalOptions="FillAndExpand"
+            Padding="20">
 
-            <Frame BackgroundColor="WhiteSmoke"
-                   CornerRadius="16"
-                   Padding="10"
-                   HorizontalOptions="Center"
-                   VerticalOptions="Center"
-                   HasShadow="True">
+            <Frame
+                BackgroundColor="WhiteSmoke"
+                CornerRadius="16"
+                Padding="16"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                HasShadow="True">
 
-                <VerticalStackLayout Spacing="10" HorizontalOptions="Center">
-                    <ActivityIndicator IsRunning="True" Color="MediumPurple" />
-                    <Label Text="Iniciando sesión..." FontSize="14" TextColor="Black"/>
+                <VerticalStackLayout
+                    Spacing="12"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center">
+
+                    <ActivityIndicator
+                        IsRunning="True"
+                        Color="#6A0DAD"
+                        WidthRequest="32"
+                        HeightRequest="32" />
+                    <Label
+                        Text="Iniciando sesión..."
+                        FontSize="14"
+                        TextColor="Black"
+                        HorizontalOptions="Center" />
                 </VerticalStackLayout>
-
             </Frame>
         </Grid>
     </Grid>

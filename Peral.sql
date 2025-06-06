@@ -7,15 +7,6 @@ EXEC sp_configure 'remote access', 1;
 RECONFIGURE;
 
 
-Create table Usuarios(
-NoEmpleado Nvarchar(255) primary key not null,
-Nombre NVarchar(255) not null,
-ApellidoPaterno NVarchar(255) not null,
-ApellidoMaterno NVarchar(255) not null,
-TipoUsuario NVarchar(20) NOT NULL CHECK (TipoUsuario IN ('Docente', 'Administrativo', 'SubDirector', 'JefeDP/Div'))
-)
-
-
 insert into Usuarios(NoEmpleado, Nombre, ApellidoPaterno, ApellidoMaterno, TipoUsuario) values('2025010070','Angel','Sanchez','Jimenez','Docente')
 insert into Usuarios(NoEmpleado, Nombre, ApellidoPaterno, ApellidoMaterno, TipoUsuario) values('SAJA020118HSLNMNA8S','Angel','Sanchez','Jimenez','Administrativo')
 
@@ -28,6 +19,14 @@ Select NoEmpleado, Nombre, ApellidoPaterno, ApellidoMaterno, TipoUsuario from Us
 					select PEM.Solicitudes, PEM.Fecha, concat(Us.Nombre, ' ', Us.ApellidoPaterno, ' ', Us.ApellidoMaterno) as Usuario, PEM.Estado From PERMISO PEM inner join Usuarios Us on Us.NoEmpleado = PEM.NoEmpPro WHERE Us.NoEmpleado ='ZAJA01040411HL'
 
 SELECT COUNT(*) FROM Usuarios WHERE NoEmpleado = 'SAJA020118HSLNMNA8'
+
+Create table Usuarios(
+NoEmpleado Nvarchar(255) primary key not null,
+Nombre NVarchar(255) not null,
+ApellidoPaterno NVarchar(255) not null,
+ApellidoMaterno NVarchar(255) not null,
+TipoUsuario NVarchar(20) NOT NULL CHECK (TipoUsuario IN ('Docente', 'Administrativo', 'SubDirector', 'JefeDP/Div', 'Director'))
+)
 
 Create table PERMISO(
 Solicitudes int primary key not null identity(1,1), 
@@ -53,11 +52,22 @@ Goce bit  null,
 sinGoce bit  null,
 OBSERVACIONES Nvarchar(100) null,
 Estado varchar(14)  null
-constraint Estado Check (Estado IN ('Administracion', 'Aceptado', 'Rechazado', 'En Divicion', 'Expirado', 'En Direccion')),
+constraint Estado Check (Estado IN ('Administracion', 'Aceptado', 'Rechazado', 'En Divicion', 'Expirado', 'En Direccion', 'Por capturar')),
 QUIENAUTORIZA Nvarchar(100) null,
-QuienAutorizaDireccion Nvarchar(100) null,
+QuienAutorizaDireccion Nvarchar(100) null, 
 foreign key (NoEmpPro) references Usuarios(NoEmpleado)
 )
+
+insert into Usuarios(NoEmpleado, Nombre, ApellidoPaterno, ApellidoMaterno, TipoUsuario) values('ZAJA01040411HL','Armando','Zambrano','Juarez','Docente')
+insert into Usuarios(NoEmpleado, Nombre, ApellidoPaterno, ApellidoMaterno, TipoUsuario) values('2025010070','Angel','Sanchez','Jimenez','Docente')
+insert into Usuarios(NoEmpleado, Nombre, ApellidoPaterno, ApellidoMaterno, TipoUsuario) values('ZAJA01040411HS','Armando','Zambrano','Juarez','Administrativo')
+insert into Usuarios(NoEmpleado, Nombre, ApellidoPaterno, ApellidoMaterno, TipoUsuario) values('ZAJA0104042HS','Angel','Zambrano','Juarez','Administrativo')
+
+insert into Usuarios(NoEmpleado, Nombre, ApellidoPaterno, ApellidoMaterno, TipoUsuario) values('ZAJA01040211HS','Armando','Zambrano','Juarez','Director')
+insert into Usuarios(NoEmpleado, Nombre, ApellidoPaterno, ApellidoMaterno, TipoUsuario) values('ZAJA01040212HS','Armando','Zambrano','Juarez','JefeDP/Div')
+
+
+
 
 ALTER TABLE PERMISO 
 ALTER COLUMN AREAADSCRIPCION NVARCHAR(100);

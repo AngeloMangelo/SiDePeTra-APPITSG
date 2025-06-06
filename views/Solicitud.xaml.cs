@@ -177,7 +177,9 @@ public partial class Solicitud : ContentPage
 
         // Validación
         if (string.IsNullOrWhiteSpace(txtDiasSolicitados.Text) ||
-            string.IsNullOrWhiteSpace(txtMotivo.Text))
+            string.IsNullOrWhiteSpace(txtMotivo.Text) ||
+            string.IsNullOrWhiteSpace(txtHorasFrenteGrupo.Text) ||
+            string.IsNullOrWhiteSpace(txtHorasApoyo.Text))
         {
             await DisplayAlert("Campos incompletos", "Por favor complete todos los campos.", "OK");
             return;
@@ -186,6 +188,12 @@ public partial class Solicitud : ContentPage
         if (pickerArea.SelectedIndex == -1)
         {
             await DisplayAlert("Campo requerido", "Seleccione un área de adscripción.", "OK");
+            return;
+        }
+
+        if (pickerMotivo.SelectedIndex == -1)
+        {
+            await DisplayAlert("Campo requerido", "Seleccione un Motivo.", "OK");
             return;
         }
 
@@ -201,6 +209,7 @@ public partial class Solicitud : ContentPage
                 return;
         }
 
+
         if (Connectivity.NetworkAccess != NetworkAccess.Internet)
         {
             await DisplayAlert("Sin conexión", "No tienes conexión a Internet. Verifica tu red e intenta de nuevo.", "OK");
@@ -213,6 +222,7 @@ public partial class Solicitud : ContentPage
         string id = Preferences.Get("UsuarioID", "");
         string tipoUsuario = Preferences.Get("TipoUsuario", "");
         string motivo = txtMotivo.Text.Trim();
+        string tipomotivo = pickerMotivo.SelectedItem.ToString();
         int dias = int.Parse(txtDiasSolicitados.Text);
         DateTime fechaInicio = dpFechaInicio.Date;
         DateTime fechaFin = dpFechaFin.Date;
@@ -229,12 +239,12 @@ public partial class Solicitud : ContentPage
         bool exito;
         if (archivoPDF == null)
         {
-            exito = await Task.Run(() => SolicitudBLL.GuardarSolicitud(id, dias, fechaInicio, fechaFin, horaInicio, horaFin, motivo, area, horasFrenteGrupo, horasApoyo));
+            exito = await Task.Run(() => SolicitudBLL.GuardarSolicitud(id, dias, fechaInicio, fechaFin, horaInicio, horaFin, motivo, area, horasFrenteGrupo, horasApoyo, tipomotivo));
 
         }
         else
         {
-            exito = await Task.Run(() => SolicitudBLL.GuardarSolicitud(id, dias, fechaInicio, fechaFin, horaInicio, horaFin, motivo, area, horasFrenteGrupo, horasApoyo, archivoPDF));
+            exito = await Task.Run(() => SolicitudBLL.GuardarSolicitud(id, dias, fechaInicio, fechaFin, horaInicio, horaFin, motivo, area, horasFrenteGrupo, horasApoyo, archivoPDF, tipomotivo));
 
         }
         await MostrarCargando(false);
