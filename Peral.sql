@@ -53,8 +53,9 @@ Goce bit  null,
 sinGoce bit  null,
 OBSERVACIONES Nvarchar(100) null,
 Estado varchar(14)  null
-constraint Estado Check (Estado IN ('Administracion', 'Aceptado', 'Rechazado', 'En Divicion', 'Expirado')),
-QUIENAUTORIZA Nvarchar(100)
+constraint Estado Check (Estado IN ('Administracion', 'Aceptado', 'Rechazado', 'En Divicion', 'Expirado', 'En Direccion')),
+QUIENAUTORIZA Nvarchar(100) null,
+QuienAutorizaDireccion Nvarchar(100) null,
 foreign key (NoEmpPro) references Usuarios(NoEmpleado)
 )
 
